@@ -4,7 +4,7 @@ public class Purchase {
 	Customer customer;
 	Game game;
 	int quantity;
-	double totalPrice;
+	double totalPrice=0;
 	public Customer getCustomer() {
 		return customer;
 	}
