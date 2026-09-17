@@ -16,6 +16,9 @@ public class Game {
 	public int getId() {
 		return id;
 	}
+	public void restId() {
+		this.id=id-1;
+	}
 	public String getTitle() {
 		return title;
 	}

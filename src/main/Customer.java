@@ -4,9 +4,16 @@ public class Customer {
 	int id=0;
 	String name;
 	double balance;
-	
+	public Customer(String name,double balance) {
+		this.id=id+1;
+		this.name=name;
+		this.balance=balance;
+	}
 	public int getId() {
 		return id;
+	}
+	public void restId() {
+		this.id=id-1;
 	}
 	public String getName() {
 		return name;
