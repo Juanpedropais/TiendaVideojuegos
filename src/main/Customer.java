@@ -1,7 +1,7 @@
 package main;
 
 public class Customer {
-	int id;
+	int id=0;
 	String name;
 	double balance;
 	
@@ -48,6 +48,6 @@ public class Customer {
 		}
 	}
 	public String toString() {
-		return "Customer [id=" + id + ", name=" + name + ", balance=" + balance + "]";
+		return "El cliente:"+this.id+" cuyo nombre es:"+this.name+" tiene un saldo de:"+this.balance;
 	}
 }

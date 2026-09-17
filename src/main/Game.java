@@ -1,12 +1,18 @@
 package main;
 
 public class Game {
-	 private int id;
+	 private int id=0;
 	 private String title;
 	 private Genre genre;
 	 private double price;
 	private int stock;
-	
+	public Game(String title,Genre genre,double price,int stock) {
+		this.id=id+1;
+		this.title=title;
+		this.genre=genre;
+		this.price=price;
+		this.stock=stock;
+	}
 	public int getId() {
 		return id;
 	}
@@ -59,7 +65,7 @@ public class Game {
 		}
 	}
 	public String toString() {
-		return "Game [id=" + id + ", title=" + title + ", genre=" + genre + ", price=" + price + ", stock=" + stock
-				+ "]";
+		return "El videojuego:"+this.id+" cuyo titulo es:"+this.title+" que es del genero:"+this.genre+
+				" con el siguiente precio:"+this.price+" y hay la siguiente cantidad:"+this.stock;
 	}
 }
