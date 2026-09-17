@@ -46,13 +46,48 @@ public class Store {
 			throw new NoExisteContenido("El id no puede ser menor a 0 y debe estar dentro de los ids creados");
 		}
 	}
-	public String BuscarTexto(String tittle) {
+	public void BuscarTexto(String tittle) {
 		for(Game g:games) {
 			if(g.getTitle().equalsIgnoreCase(tittle)) {
-				return g.getTitle();
+				System.out.println(g.getTitle());
 			}
 		}
-		return null;
 	}
-	
+	public void BuscarGenero(Genre genre) {
+		for(Game g:games) {
+			if(g.getGenre().equals(genre)) {
+				System.out.println("El juego:"+g.getId()+" tiene como titulo:"+g.getTitle()+
+						" que es del siguiente genero:"+g.getGenre()+" con el siguiente precio:"+
+						g.getPrice()+" y hay la siguiente cantidad:"+g.getStock());
+			}
+		}
+	}
+	public void ComprarVideojuego(int id_cliente,int id_videojuego,int stock) throws NoExisteContenido, SaldoInsuficiente {
+		BuscarVideojuegos(id_videojuego);
+		BuscarClientes(id_cliente);
+		if(stock>0) {
+			for(Game g:games) {
+				if(g.getId()==id_videojuego) {
+					if(g.getStock()>=stock) {
+						for(Customer c:customers) {
+							if(c.getId()==id_cliente) {
+								if(c.getBalance()>=g.getPrice()*stock) {
+									g.restStock(stock);
+									c.restBalance(g.getPrice()*stock);
+									Purchase p=new Purchase(c,g,stock);
+									purchases.add(p);
+								}else {
+									System.out.println("No existe saldo suficiente");
+								}
+							}
+						}
+					}else {
+						System.out.println("No existe stock suficiente");
+					}
+				}
+			}
+		} else {
+			System.out.println("La cantidad no puede ser igual o menor a 0");
+		}
+	}
 }
