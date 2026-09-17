@@ -3,7 +3,7 @@ package main;
 import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) throws NoExisteContenido {
+	public static void main(String[] args) throws NoExisteContenido, SaldoInsuficiente {
 		System.out.println("Bienvenido al sistema de Tienda Videojuego por favor pulse una opción:"+
 	"add game-Añadir un juego "+
 				"add client-Añadir un cliente "+
@@ -64,11 +64,24 @@ public class Main {
 			Genre genero2=Genre.valueOf(genero);
 			s.BuscarGenero(genero2);
 		} else if(contestacion=="buy id") {
-			
+			System.out.println("Por favor dame el ID del videojuego,el ID del cliente,y la cantidad");
+			int ID_cliente=sc.nextInt();
+			int ID_videojuego=sc.nextInt();
+			int cantidad=sc.nextInt();
+			s.ComprarVideojuego(ID_cliente, ID_videojuego, cantidad);
 		} else if(contestacion=="buy titulo") {
-			
+			System.out.println("Por favor dame el nombre del videojuego,el ID del cliente,y la cantidad");
+			int ID_cliente=sc.nextInt();
+			String nombre=sc.nextLine();
+			int cantidad=sc.nextInt();
+			s.ComprarVideojuegoTexto(ID_cliente, nombre, cantidad);
 		} else if(contestacion=="buy genero") {
-			
+			System.out.println("Por favor dame el genero del videojuego,el ID del cliente,y la cantidad");
+			int ID_cliente=sc.nextInt();
+			String genero=sc.nextLine().toUpperCase();
+			Genre genero2=Genre.valueOf(genero);
+			int cantidad=sc.nextInt();
+			s.ComprarVideojuegoGenero(ID_cliente, genero2, cantidad);
 		} else {
 			System.out.println("Por favor conteste escribiendo una de las opciones");
 		}
