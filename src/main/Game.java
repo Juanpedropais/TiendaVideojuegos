@@ -1,13 +1,13 @@
 package main;
 
 public class Game {
-	 private int id=0;
+	 private int id;
 	 private String title;
 	 private Genre genre;
 	 private double price;
 	private int stock;
-	public Game(String title,Genre genre,double price,int stock) {
-		this.id=id+1;
+	public Game(int id,String title,Genre genre,double price,int stock) {
+		this.id=id;
 		this.title=title;
 		this.genre=genre;
 		this.price=price;
@@ -31,44 +31,30 @@ public class Game {
 	public int getStock() {
 		return stock;
 	}
-	public void setStock(int stock) {
-		if(stock>=0) {
-			this.stock = stock;
-		} else {
-			System.out.println("El stock no puede ser menor a 0");
-		}
+	public void sumStock(int sum) throws CantidadInvalida {
+		if(sum<0) throw new CantidadInvalida("Cantidad invalida");
+			stock += sum;
 	}
-	public void sumStock(int sum) {
-		if(sum>=0) {
-			this.stock = sum+stock;
-		} else {
-			System.out.println("La suma no puede ser menor a 0");
-		}
+	public void restStock(int rest) throws CantidadInvalida {
+		if(rest<0) throw new CantidadInvalida("Cantidad invalida");
+		if(rest>stock) throw new CantidadInvalida("Cantidad invalida");
+		stock-=rest;
 	}
-	public void restStock(int rest) {
-		if(rest>=0) {
-			if(rest>this.stock) {
-				System.out.println("No hay suficiente stock");
-			}else {
-				this.stock = stock-rest;
-			}
-		} else {
-			System.out.println("La resta no puede ser menor a 0");
-		}
+	public void modStock(int stock) throws CantidadInvalida {
+		if(stock>0) sumStock(stock);
+		else restStock(-stock);
 	}
-	public void ComprobarStock(int id) {
-		if(id>this.id) {
-			System.out.println("No existe un juego con ese ID");
-		}else {
-			for(int i=0;i<=this.id;i++){
-				if(i==id) {
-					System.out.println("El stocke del juego:"+this.id+" es:"+this.stock);
-				}
-			}
-		}
+	public boolean ComprobarStock(int cantidad) {
+		return stock >= cantidad;
 	}
 	public String toString() {
-		return "El videojuego:"+this.id+" cuyo titulo es:"+this.title+" que es del genero:"+this.genre+
-				" con el siguiente precio:"+this.price+" y hay la siguiente cantidad:"+this.stock;
+		return String.format("""
+				ID: %d
+				Title: %s
+				Genre: %s
+				Price: %.2f
+				Stock: %d
+				""",
+				id,title,genre,price,stock);
 	}
 }
