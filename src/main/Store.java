@@ -63,6 +63,19 @@ public class Store {
 		for(Customer cliente:customers) {
 			if(c.equals(cliente)) throw new NoExisteID("El cliente con id x ya existe");
 		}
+		customers.add(c);
+	}
+	public void EliminarVideojuegos(int id) throws NoExisteID {
+		for(Game videojuegos:games) {
+			if(id==videojuegos.getId()) throw new NoExisteID("No existe videojuego con Id x");
+		}
+		games.remove(id);
+	}
+	public void EliminarClientes(int id) throws NoExisteID {
+		for(Customer clientes:customers) {
+			if(id==clientes.getId()) throw new NoExisteID("No existe cliente con Id x");
+		}
+		customers.remove(id);
 	}
 	public Game BuscarVideojuegos(int id) throws NoExisteID {
 		for(Game videojuego:games) {
@@ -170,54 +183,6 @@ public class Store {
 			}
 		} else {
 			System.out.println("La cantidad no puede ser igual o menor a 0");
-		}
-	}
-	public void EliminarVideojuego(int id) {
-		boolean videojuegoEliminado=false;
-		if(id<games.size() &&id>0) {
-			for(Game g:games) {
-				if(g.getId()==id) {
-					games.remove(id);
-					videojuegoEliminado=true;
-				}
-				if(videojuegoEliminado==true) {
-					for(int i=0;i<games.size();i++) {
-						if(games.get(i)==null) {
-							for(int j=i;j<games.size();j++) {
-								if(games.get(j)!=null) {
-									games.get(j).restId();
-								}
-							}
-						}
-					}
-				}
-			}
-		}else {
-			System.out.println("El ID no puede ser menor a 0 y debe de estar dentro de los ids creados");
-		}
-	}
-	public void EliminarCliente(int id) {
-		boolean clienteEliminado=false;
-		if(id<customers.size() &&id>0) {
-			for(Customer c:customers) {
-				if(c.getId()==id) {
-					customers.remove(id);
-					clienteEliminado=true;
-				}
-				if(clienteEliminado==true) {
-					for(int i=0;i<customers.size();i++) {
-						if(customers.get(i)==null) {
-							for(int j=i;j<customers.size();j++) {
-								if(customers.get(j)!=null) {
-									customers.get(j).restId();
-								}
-							}
-						}
-					}
-				}
-			}
-		}else {
-			System.out.println("El ID no puede ser menor a 0 y debe de estar dentro de los ids creados");
 		}
 	}
 }
