@@ -16,9 +16,6 @@ public class Game {
 	public int getId() {
 		return id;
 	}
-	public void restId() {
-		this.id=id-1;
-	}
 	public String getTitle() {
 		return title;
 	}
@@ -56,5 +53,12 @@ public class Game {
 				Stock: %d
 				""",
 				id,title,genre,price,stock);
+	}
+	@Override
+	public boolean equals(Object other) {
+		if(other == this) return true;
+		if(!(other instanceof Game)) return false;
+		Game g=(Game)other;
+		return id==g.getId() && title==g.getTitle();
 	}
 }

@@ -6,11 +6,60 @@ public class Store {
 	ArrayList<Game> games=new ArrayList<>();
 	ArrayList<Customer> customers=new ArrayList<>();
 	ArrayList<Purchase> purchases=new ArrayList<>();
-	public void AñadirVideojuego(String tittle,Genre genre,double price,int stock) {
-		games.add(new Game(tittle,genre,price,stock));
+	public Store() {
+		Game j1 = new Game(1,"Uncharted",Genre.ADVENTURE,81.79,200);
+		Game j2 = new Game(2,"Call Of Duty",Genre.ACTION,100.99,200);
+		Game j3 = new Game(3,"Mario Bros",Genre.PLATFORM,59.01,200);
+		int a=0;
+		games.add(j1);
+		games.add(j2);
+		games.add(j3);
 	}
-	public void AñadirCliente(String name,double balance) {
+	public void AñadirVideojuegos(Game g) throws NoExisteID {
+		for(Game videojuego:games) {
+			if(g.equals(videojuego)) throw new NoExisteID("El juego con id x ya existe");
+		}
+		games.add(g);
+	}
+	public void AñadirCliente(Customer c) {
 		customers.add(new Customer(name,balance));
+	}
+	public Game BuscarVideojuegos(int id) throws NoExisteID {
+		for(Game videojuego:games) {
+			if(videojuego.getId()==id) return videojuego;
+		}
+		throw new NoExisteID("No existe ID");
+	}
+	public Customer BuscarClientes(int id) throws NoExisteID {
+		for(Customer clientes:customers) {
+			if(clientes.getId()==id) return clientes;
+		}
+		throw new NoExisteID("No existe ID");
+	}
+	public ArrayList<Game> BuscarPorTitulo(String title){
+		String LowerTitle = title.toLowerCase();
+		ArrayList<Game> videojuegos=new ArrayList<Game>();
+		for(Game videojuego: games) {
+			if(videojuego.getTitle().toLowerCase().contains(LowerTitle)) videojuegos.add(videojuego);
+		}
+		return videojuegos;
+	}
+	public ArrayList<Game> BuscarPorGenero(Genre genre){
+		ArrayList<Game> videojuegos=new ArrayList<Game>();
+		for(Game videojuego: games) {
+			if(videojuego.getGenre() == genre) videojuegos.add(videojuego);
+		}
+		return videojuegos;
+	}
+	public void ComprarVideojuego(int IDcliente,int IDvideojuego,int stock) throws CantidadInvalida, NoExisteID {
+		Game g = BuscarVideojuegos(IDvideojuego);
+		if(g==null) throw new CantidadInvalida("No existe el juego");
+		Customer c=BuscarClientes(IDcliente);
+		if(c==null) throw new CantidadInvalida("No existe el juego");
+		if(stock < 1) throw new CantidadInvalida("Cantidad no valida");
+		if(!g.ComprobarStock(stock))throw new CantidadInvalida("No hay stock suficiente");
+		if(c.dispone(stock))throw new CantidadInvalida("No hay stock suficiente");
+		// actulizemos campos
 	}
 	public void EliminarVideojuego(int id) {
 		boolean videojuegoEliminado=false;
@@ -68,87 +117,6 @@ public class Store {
 	public void MostrarClientes() {
 		for(Customer c:customers) {
 			c.toString();
-		}
-	}
-	public void BuscarVideojuegos(int id) throws NoExisteContenido {
-		boolean videojuegoEncontrado=false;
-		if(id<=games.size() && id>0) {
-			for(Game g:games) {
-				if(g.getId()==id) {
-					System.out.println("El juego:"+g.getId()+" tiene como titulo:"+g.getTitle()+
-							" que es del siguiente genero:"+g.getGenre()+" con el siguiente precio:"+
-							g.getPrice()+" y hay la siguiente cantidad:"+g.getStock());
-					videojuegoEncontrado=true;
-					break;
-				}
-			}
-			if(videojuegoEncontrado == false) {
-				System.out.println("No se encontro ningún videojuego con ese ID");
-			}
-		}else {
-			throw new NoExisteContenido("El id no puede ser menor a 0 y debe estar dentro de los ids creados");
-		}
-	}
-	public void BuscarClientes(int id) throws NoExisteContenido {
-		boolean clienteEncontrado=false;
-		if(id<=customers.size() && id>0) {
-			for(Customer c:customers) {
-				if(c.getId()==id) {
-					System.out.println("El cliente:"+c.getId()+" tiene como nombre:"+c.getName()+
-							" con un saldo de:"+c.getBalance());
-					clienteEncontrado=true;
-					break;
-				}
-			}
-			if(clienteEncontrado == false) {
-				System.out.println("No se encontro ningún cliente con ese ID");
-			}
-		}else {
-			throw new NoExisteContenido("El id no puede ser menor a 0 y debe estar dentro de los ids creados");
-		}
-	}
-	public void BuscarTexto(String tittle) {
-		for(Game g:games) {
-			if(g.getTitle().equalsIgnoreCase(tittle)) {
-				System.out.println(g.getTitle());
-			}
-		}
-	}
-	public void BuscarGenero(Genre genre) {
-		for(Game g:games) {
-			if(g.getGenre().equals(genre)) {
-				System.out.println("El juego:"+g.getId()+" tiene como titulo:"+g.getTitle()+
-						" que es del siguiente genero:"+g.getGenre()+" con el siguiente precio:"+
-						g.getPrice()+" y hay la siguiente cantidad:"+g.getStock());
-			}
-		}
-	}
-	public void ComprarVideojuego(int id_cliente,int id_videojuego,int stock) throws NoExisteContenido, SaldoInsuficiente {
-		BuscarVideojuegos(id_videojuego);
-		BuscarClientes(id_cliente);
-		if(stock>0) {
-			for(Game g:games) {
-				if(g.getId()==id_videojuego) {
-					if(g.getStock()>=stock) {
-						for(Customer c:customers) {
-							if(c.getId()==id_cliente) {
-								if(c.getBalance()>=g.getPrice()*stock) {
-									g.restStock(stock);
-									c.restBalance(g.getPrice()*stock);
-									Purchase p=new Purchase(c,g,stock);
-									purchases.add(p);
-								}else {
-									System.out.println("No existe saldo suficiente");
-								}
-							}
-						}
-					}else {
-						System.out.println("No existe stock suficiente");
-					}
-				}
-			}
-		} else {
-			System.out.println("La cantidad no puede ser igual o menor a 0");
 		}
 	}
 	public void ComprarVideojuegoTexto(int id_cliente,String titulo_Videojuego,int stock) throws NoExisteContenido, SaldoInsuficiente {

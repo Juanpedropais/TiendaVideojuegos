@@ -4,7 +4,7 @@ public class Purchase {
 	Customer customer;
 	Game game;
 	int quantity;
-	double totalPrice=0;
+	double totalPrice;
 	public Purchase(Customer customer, Game game, int quantity) {
 		this.customer=customer;
 		this.game=game;
