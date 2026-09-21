@@ -33,7 +33,7 @@ public class Store {
 				games.add(g);
 			}
 		}catch(Exception e) {
-			//"no se pudo cargar el archivo"
+			System.out.println("El archivo no se cargo correctamente");
 		}
 	}
 	public void loadCustomers(String filename) {
@@ -50,7 +50,7 @@ public class Store {
 				customers.add(c);
 			}
 		}catch(Exception e) {
-			//"no se pudo cargar el archivo"
+			System.out.println("El archivo no se cargo correctamente");
 		}
 	}
 	public void AñadirVideojuegos(Game g) throws NoExisteID {
@@ -220,3 +220,5 @@ public class Store {
 			System.out.println("El ID no puede ser menor a 0 y debe de estar dentro de los ids creados");
 		}
 	}
+}
+
